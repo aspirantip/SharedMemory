@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include <dialog.h>
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +19,9 @@ public:
     
 private:
     Ui::MainWindow *ui;
+    Dialog dlg;
+
+    void creatorConnections();
 };
 
 #endif // MAINWINDOW_H
