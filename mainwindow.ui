@@ -96,6 +96,23 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="pbClear">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pbLoadFromSharedMemory">
+         <property name="text">
+          <string>Load</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="pbSaveData">
          <property name="enabled">
           <bool>true</bool>
