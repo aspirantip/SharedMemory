@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QDebug>
 
+#include <contact.h>
 
 namespace Ui {
 class Dialog;

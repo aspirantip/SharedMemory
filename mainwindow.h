@@ -7,6 +7,7 @@
 #include <QDebug>
 
 #include <dialog.h>
+#include <contact.h>
 
 namespace Ui {
 class MainWindow;

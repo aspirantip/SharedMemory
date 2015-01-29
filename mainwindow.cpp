@@ -35,10 +35,17 @@ void MainWindow::saveToSharedMemory()
     if (ui->leFistName->text().isEmpty())
         return;
 
+    contact newContact;
+    newContact.firstName = ui->leFistName->text();
+    newContact.lastName = ui->leSecondName->text();
+    newContact.phone = ui->leNumberPhone->text();
+
     QBuffer buffer;
     buffer.open(QBuffer::ReadWrite);
     QDataStream out( &buffer );
-    out << ui->leFistName->text();
+    out << newContact.firstName;
+    out << newContact.lastName;
+    out << newContact.phone;
     int size = buffer.size();
 
     if (!sharedMemory.create(size)){
@@ -59,17 +66,19 @@ void MainWindow::loadFromSharedMemory()
 {
     QBuffer buffer;
     QDataStream in(&buffer);
-    QString strName;
+    contact oldContact;
 
     sharedMemory.lock();
     buffer.setData((char *)sharedMemory.constData(), sharedMemory.size());
     buffer.open( QBuffer::ReadOnly);
-    in >> strName;
-
-    qDebug() << strName;
+    in >> oldContact.firstName;
+    in >> oldContact.lastName;
+    in >> oldContact.phone;
     sharedMemory.unlock();
 
-    ui->leFistName->setText( strName );
+    ui->leFistName->setText( oldContact.firstName);
+    ui->leSecondName->setText( oldContact.lastName);
+    ui->leNumberPhone->setText( oldContact.phone);
 }
 
 void MainWindow::clearFields()

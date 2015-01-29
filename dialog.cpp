@@ -8,8 +8,6 @@ Dialog::Dialog(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle(tr("Additional application window"));
     creatorConnections();
-
-
 }
 
 Dialog::~Dialog()
@@ -24,8 +22,6 @@ void Dialog::creatorConnections()
 
 void Dialog::loadFromSharedMemory()
 {
-    qDebug() << "loadFromSharedMemory";
-
     if (!sharedMemory.attach()){
         QMessageBox::warning(this, tr("Error"), tr("Unable to attach to shared memory segment!"));
         return;
@@ -33,16 +29,17 @@ void Dialog::loadFromSharedMemory()
 
     QBuffer buffer;
     QDataStream in(&buffer);
-    QString strName;
+    contact curContact;
 
     sharedMemory.lock();
     buffer.setData((char *)sharedMemory.constData(), sharedMemory.size());
     buffer.open( QBuffer::ReadOnly);
-    in >> strName;
-
-    qDebug() << strName;
+    in >> curContact.firstName;
+    in >> curContact.lastName;
+    in >> curContact.phone;
     sharedMemory.unlock();
     sharedMemory.detach();
 
-    ui->lblFullName->setText( strName );
+    ui->lblFullName->setText( curContact.firstName + " " + curContact.lastName );
+    ui->lblPhone->setText( curContact.phone );
 }
