@@ -45,5 +45,4 @@ void Dialog::loadFromSharedMemory()
     sharedMemory.detach();
 
     ui->lblFullName->setText( strName );
-
 }

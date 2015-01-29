@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    sharedMemory.detach();
     delete ui;
 }
 
@@ -56,13 +57,6 @@ void MainWindow::saveToSharedMemory()
 
 void MainWindow::loadFromSharedMemory()
 {
-
-    if (!sharedMemory.attach()){
-        QMessageBox::warning(this, tr("Error"), tr("Unable to attach to shared memory segment!"));
-        return;
-    }
-
-
     QBuffer buffer;
     QDataStream in(&buffer);
     QString strName;
