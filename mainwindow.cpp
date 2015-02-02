@@ -1,6 +1,25 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+// перегружаем операторы ввода/вывода QDataStream
+QDataStream &operator << (QDataStream &out, const contact &cont)
+{
+    out << cont.firstName;
+    out << cont.lastName;
+    out << cont.phone;
+
+    return out;
+}
+
+QDataStream &operator >> (QDataStream &in, contact &cont)
+{
+    in >> cont.firstName;
+    in >> cont.lastName;
+    in >> cont.phone;
+
+    return in;
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow), sharedMemory("SharedMemory")
@@ -43,9 +62,7 @@ void MainWindow::saveToSharedMemory()
     QBuffer buffer;
     buffer.open(QBuffer::ReadWrite);
     QDataStream out( &buffer );
-    out << newContact.firstName;
-    out << newContact.lastName;
-    out << newContact.phone;
+    out << newContact;
     int size = buffer.size();
 
     if (!sharedMemory.create(size)){
@@ -71,9 +88,7 @@ void MainWindow::loadFromSharedMemory()
     sharedMemory.lock();
     buffer.setData((char *)sharedMemory.constData(), sharedMemory.size());
     buffer.open( QBuffer::ReadOnly);
-    in >> oldContact.firstName;
-    in >> oldContact.lastName;
-    in >> oldContact.phone;
+    in >> oldContact;
     sharedMemory.unlock();
 
     ui->leFistName->setText( oldContact.firstName);
@@ -87,3 +102,6 @@ void MainWindow::clearFields()
     ui->leSecondName->clear();
     ui->leNumberPhone->clear();
 }
+
+
+

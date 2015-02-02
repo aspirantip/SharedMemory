@@ -9,4 +9,6 @@ struct contact{
     QString phone;
 };
 
+
+
 #endif // CONTACT_H
